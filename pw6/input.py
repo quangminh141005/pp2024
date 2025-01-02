@@ -93,17 +93,17 @@ def inputMark(stdscr, management):
 
 def savefile(management):
     # Serialize to binary file
-    with open("students.pickle", "wb") as  student_file:
+    with open("student.pickle", "wb") as  student_file:
         pickle.dump(management.students, student_file)
 
-    with open("courses.pickle", "wb") as course_file:
+    with open("course.pickle", "wb") as course_file:
         pickle.dump(management.courses, course_file)
 
     with open("mark.pickle", "wb") as mark_file:
         pickle.dump(management.marks, mark_file)
 
 def zip_textfile(management):
-    allfiles = ["students.txt", "courses.txt", "marks.txt"]
+    allfiles = ["student.pickle", "course.pickle", "mark.pickle"]
     zipfile_name = "students.dat"
 
     with zipfile.ZipFile(zipfile_name, "w") as zipf:
@@ -123,37 +123,14 @@ def checkfile(stdscr, management):
             zipf.extractall()
 
         try:
-        # Load students
-            with open("students.txt", "r") as student_file:
-                for line in student_file:
-                    part = line.strip().split(", ")
-                    id = part[0].split(": ")[1]
-                    name = part[1].split(": ")[1]
-                    dob = part[2].split(": ")[1]
-                    management.students.append(Student(id, name, dob))
-            
-            # Load courses
-            with open("courses.txt", "r") as course_file:
-                for line in course_file:
-                    part = line.strip().split(", ")
-                    id = part[0].split(": ")[1]
-                    name = part[1].split(": ")[1]
-                    credit = int(part[2].split(": ")[1])
+            with open("student.pickle", "rb") as student_file:
+                management.students = pickle.load(student_file)
 
-                    management.courses.append(Course(id, name, credit))
-            
-            # Load marks
-            with open("marks.txt", "r") as mark_file:
-                for line in mark_file:
-                    part = line.strip().split(", ")
-                    course_name = part[0].split(": ")[1]            
-                    student_name = part[1].split(": ")[1]
-                    mark = part[1].split(": ")[2]
-                    course_id = next((c.id for c in management.courses if c.name == course_name), None)
-                    student_id = next((c.id for c in management.students if c.name == student_name), None)
+            with open("course.pickle", "rb") as course_file:
+                management.courses = pickle.load(course_file)
 
-                    if course_id and student_id:
-                        management.marks.addMark(student_id, course_id, float(mark))
+            with open("mark.pickle", "rb") as mark_file:
+                management.marks = pickle.load(mark_file)
 
             stdscr.addstr("Loading complete!\n")
         except:

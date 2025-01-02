@@ -2,6 +2,7 @@
 import curses
 import zipfile
 import os
+import pickle
 import numpy as np
 from input import inputStudent, inputCourse, inputMark, savefile, zip_textfile, checkfile
 from output import showMark, listStudent, listCourse, sortGPA
