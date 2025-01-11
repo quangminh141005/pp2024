@@ -49,10 +49,23 @@ def process_pipe(command):
     processes = command.split('|')
     prev_result = None
     for process in processes:
+        parts = process.spilt()
         if prev_result == None:
-            prev_result = subprocess.run(process, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            prev_result = subprocess.run(parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         else:
-            result = subprocess.run(process, stdin=prev_result, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            result = subprocess.run(parts, stdin=prev_result, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print(result)
+
+def process(command)
+    if '>' in command:
+        process_output(command)
+    elif '<' in command:
+        process_input(command)
+    elif '|' in command(command):
+        process_pipe(command)
+    else:
+        execute(command)
+
+
 
     
