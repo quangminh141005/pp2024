@@ -29,4 +29,13 @@ def redirected_input(command):
     #indentify string parts
     parts = command.split( )
     index = parts.index('<')
-    input_file = part[]
+    input = part[:index]
+    input_file = part[index + 1]
+
+    # Run
+    with open(input_file, 'r') as f:
+        result = subprocess.run(input, stdin=f, stdout=subprocess.PIPE, stderr=subprocess)
+        print(result.stdout.decode())
+
+def execute(command)
+    
