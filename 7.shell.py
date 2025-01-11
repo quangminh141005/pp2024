@@ -7,6 +7,8 @@
     Indentify part
     Read file
     Print
+4. Test case '|' include
+
 4. Test other case
     Run
 '''
@@ -14,7 +16,7 @@
 import os
 import subprocess
 
-def redirect_output(command):
+def process_output(command):
     # Indentify string parts
     parts = command.split( )
     index = parts.index('>')
@@ -25,7 +27,7 @@ def redirect_output(command):
     with open(output_file, 'w') as f:
         output = subprocess.run(input, stdout = f, stderr=subprocess.PIPE)
 
-def redirected_input(command):
+def process_input(command):
     #indentify string parts
     parts = command.split( )
     index = parts.index('<')
@@ -37,5 +39,20 @@ def redirected_input(command):
         result = subprocess.run(input, stdin=f, stdout=subprocess.PIPE, stderr=subprocess)
         print(result.stdout.decode())
 
-def execute(command)
+def execute(command):
+    parts = command.split()
+    result = subprocess.run(parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(result)
+
+def process_pipe(command):
+    # Indentidy each process
+    processes = command.split('|')
+    prev_result = None
+    for process in processes:
+        if prev_result == None:
+            prev_result = subprocess.run(process, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+            result = subprocess.run(process, stdin=prev_result, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(result)
+
     
