@@ -25,7 +25,7 @@ def process_output(command):
 
     # Run
     with open(output_file, 'w') as f:
-        output = subprocess.run(cmd, stdout = f, stderr=subprocess.PIPE)
+        output = subprocess.run(cmd, stdout=f, stderr=subprocess.PIPE)
 
 def process_input(command):
     #indentify string parts
@@ -48,13 +48,14 @@ def process_pipe(command):
     # Indentidy each process
     processes = command.split('|')
     prev_result = None
-    for process in processes:
-        parts = process.spilt()
-        if prev_result == None:
-            prev_result = subprocess.run(parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    for i, process in enumerate(processes):
+        parts = process.strip().split()
+        if i == 0:
+            prev_result = subprocess.Popen(parts, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         else:
-            result = subprocess.run(parts, stdin=prev_result, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    print(result.stdout.decode())
+            result = subprocess.Popen(parts, stdin=prev_result.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, errors = prev_result.communicate()       
+    print(output.decode())
 
 def process(command):
     if '>' in command:
