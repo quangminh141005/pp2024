@@ -20,23 +20,23 @@ def process_output(command):
     # Indentify string parts
     parts = command.split( )
     index = parts.index('>')
-    input = parts[:index]
+    cmd = parts[:index]
     output_file = part[index + 1]
 
     # Run
     with open(output_file, 'w') as f:
-        output = subprocess.run(input, stdout = f, stderr=subprocess.PIPE)
+        output = subprocess.run(cmd, stdout = f, stderr=subprocess.PIPE)
 
 def process_input(command):
     #indentify string parts
     parts = command.split( )
     index = parts.index('<')
-    input = part[:index]
+    cmd = parts[:index]
     input_file = part[index + 1]
 
     # Run
     with open(input_file, 'r') as f:
-        result = subprocess.run(input, stdin=f, stdout=subprocess.PIPE, stderr=subprocess)
+        result = subprocess.run(cmd, stdin=f, stdout=subprocess.PIPE, stderr=subprocess)
         print(result.stdout.decode())
 
 def execute(command):
@@ -56,7 +56,7 @@ def process_pipe(command):
             result = subprocess.run(parts, stdin=prev_result, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     print(result)
 
-def process(command)
+def process(command):
     if '>' in command:
         process_output(command)
     elif '<' in command:
@@ -65,6 +65,20 @@ def process(command)
         process_pipe(command)
     else:
         execute(command)
+
+def main():
+    while True:
+        try:
+            command = input("Shell>> ")
+            if command.lower() in ['exit', 'quit']
+                break
+            process(command)
+        except KeyboardInterrupt:
+            break
+
+if __name__ = "__main__":
+    main()
+
 
 
 
