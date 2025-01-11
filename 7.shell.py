@@ -1,18 +1,3 @@
-'''
-1. Split the command
-2. Test case '>' inlclude
-    Indetify parts
-    Run
-3. Test case '<' include
-    Indentify part
-    Read file
-    Print
-4. Test case '|' include
-
-4. Test other case
-    Run
-'''
-
 import os
 import subprocess
 
